@@ -1,0 +1,21 @@
+overwrite: true
+schema: 'https://json-placeholder-graphql.herokuapp.com/graphql'
+documents: 'lib/**/*.ts'
+generates:
+  ./types/api/jsonPlaceHolder.d.ts:
+    plugins:
+      - 'typescript'
+      - 'typescript-operations'
+      - 'typescript-react-apollo'
+    config:
+      # HACK: avoid undefined
+      # maybeValue: T | undefined
+      maybeValue: T
+      # HACK: avoid optional
+      avoidOptionals: true
+      # immutableTypes: true
+      preResolveTypes: true
+      useTypeImports: true
+  # ./types/api/graphql.schema.json:
+  #   plugins:
+  #     - 'introspection'

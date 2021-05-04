@@ -1,0 +1,17 @@
+/* FIXME: 反映できていない */
+*:focus:not(:focus-visible),
+*::before:focus:not(:focus-visible),
+*::after:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* https://github.com/jensimmons/cssremedy/blob/master/css/reminders.css */
+
+nav ul {
+  list-style: none;
+}
+
+nav li::before {
+  position: absolute;
+  content: '\200B'; /* NOTE: zero width space for a11y */
+}
