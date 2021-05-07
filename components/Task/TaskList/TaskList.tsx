@@ -1,7 +1,13 @@
 import Link from 'next/link';
 import React, { FC, useState } from 'react';
+import useSWR from 'swr';
 
-import { createTask, deleteTask, updateTask } from '../../../lib/tasks';
+import {
+  createTask,
+  deleteTask,
+  fetchAllTasksData,
+  updateTask,
+} from '../../../lib/tasks';
 import { Props as TaskFormProps, TaskForm } from '../TaskForm/TaskForm';
 import { Props as TaskItemProps, TaskItem } from '../TaskItem/TaskItem';
 
@@ -50,7 +56,16 @@ export const PureTaskList: FC<PureProps> = ({
   </>
 );
 
-export const TaskList: FC<Props> = ({ tasks }) => {
+export const TaskList: FC<Props> = () => {
+  const { data, mutate } = useSWR<PureProps['tasks']>(
+    'tasks',
+    fetchAllTasksData,
+    {
+      suspense: true,
+    }
+  );
+  // HACK: Suspense を使用しているため
+  const tasks = data as NonNullable<typeof data>;
   const [task, setTask] = useState('');
   const [taskStatus, setTaskStatus] = useState<
     | { status: 'create'; taskId: undefined }
@@ -63,6 +78,7 @@ export const TaskList: FC<Props> = ({ tasks }) => {
     event.preventDefault();
 
     await deleteTask(id);
+    await mutate();
     setTaskStatus({ status: 'create', taskId: undefined });
   };
 
@@ -91,12 +107,14 @@ export const TaskList: FC<Props> = ({ tasks }) => {
           event.preventDefault();
 
           await createTask(task);
+          await mutate();
           setTask('');
         }
       : async (event) => {
           event.preventDefault();
 
           await updateTask(task, taskStatus.taskId);
+          await mutate();
           setTaskStatus({ status: 'create', taskId: undefined });
           setTask('');
         };
@@ -118,20 +136,18 @@ export const TaskList: FC<Props> = ({ tasks }) => {
 };
 
 export type PureProps = Omit<
-  TaskFormProps &
-    Props & {
-      onDeleteTaskClick: (id: number) => TaskItemProps['onDeleteTaskClick'];
-      onEditTaskClick: (id: number) => TaskItemProps['onEditTaskClick'];
-    },
+  TaskFormProps & {
+    onDeleteTaskClick: (id: number) => TaskItemProps['onDeleteTaskClick'];
+    onEditTaskClick: (id: number) => TaskItemProps['onEditTaskClick'];
+  } & {
+    tasks: {
+      [P in keyof Omit<
+        TaskItemProps,
+        'onDeleteTaskClick' | 'onEditTaskClick'
+      >]: TaskItemProps[P];
+    }[];
+  },
   ''
 >;
 
-export type Props = {
-  tasks: {
-    [P in keyof Omit<
-      TaskItemProps,
-      'onDeleteTaskClick' | 'onEditTaskClick'
-    >]: TaskItemProps[P];
-  }[];
-  // tasks: Omit<TaskItemProps, 'onDeleteTaskClick' | 'onEditTaskClick'>[];
-};
+export type Props = Record<string, unknown>;

@@ -1,18 +1,13 @@
 import type {
   Task,
   TaskById,
-  TaskError,
   TaskIds,
   TaskList,
   TaskParams,
 } from '../types/task';
 import { db } from './firebase/firebase-client';
 
-export const fetchAllTasksData = async (): Promise<{
-  data: TaskList;
-  error?: TaskError;
-  loading: boolean;
-}> => {
+export const fetchAllTasksData = async (): Promise<TaskList['tasks']> => {
   // FYI: https://stackoverflow.com/a/66064876
   const querySnapshot = await db
     .collection('tasks')
@@ -22,16 +17,11 @@ export const fetchAllTasksData = async (): Promise<{
     id: doc.data().id as number,
     title: doc.data().title as string,
   }));
-  const data: TaskList = { tasks };
 
-  return { data, error: undefined, loading: false };
+  return tasks;
 };
 
-export const fetchAllTaskIds = async (): Promise<{
-  data: TaskIds;
-  error?: TaskError;
-  loading: boolean;
-}> => {
+export const fetchAllTaskIds = async (): Promise<TaskIds['tasks']> => {
   // FYI: https://stackoverflow.com/a/66064876
   const querySnapshot = await db
     .collection('tasks')
@@ -40,18 +30,16 @@ export const fetchAllTaskIds = async (): Promise<{
   const tasks: TaskIds['tasks'] = querySnapshot.docs.map((doc) => ({
     id: doc.data().id as number,
   }));
-  const data: TaskIds = { tasks };
 
-  return { data, error: undefined, loading: false };
+  return tasks;
+  // const data: TaskIds = { tasks };
+
+  // return { data, error: undefined, loading: false };
 };
 
 export const fetchTaskData = async (
   id: TaskParams['id']
-): Promise<{
-  data: TaskById;
-  error?: TaskError;
-  loading: boolean;
-}> => {
+): Promise<TaskById['task']> => {
   // FYI: https://stackoverflow.com/a/66064876
   const querySnapshot = await db
     .collection('tasks')
@@ -62,9 +50,11 @@ export const fetchTaskData = async (
     id: doc.data().id as number,
     title: doc.data().title as string,
   }))[0];
-  const data: TaskById = { task };
 
-  return { data, error: undefined, loading: false };
+  return task;
+  // const data: TaskById = { task };
+
+  // return { data, error: undefined, loading: false };
 };
 
 export const createTask = async (title: string): Promise<void> => {
