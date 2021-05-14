@@ -1,4 +1,4 @@
-import React, { Component, PropsWithChildren, ReactNode } from 'react';
+import { Component, PropsWithChildren, ReactNode } from 'react';
 
 export class ErrorBoundary extends Component<Props, State> {
   state = { error: null, hasError: false };

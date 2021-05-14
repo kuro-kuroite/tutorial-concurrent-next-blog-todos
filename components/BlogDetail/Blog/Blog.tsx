@@ -1,7 +1,11 @@
 import Link from 'next/link';
-import React, { FC } from 'react';
+import { useRouter } from 'next/router';
+import React, { VFC } from 'react';
+import useSWR from 'swr';
 
-export const PureBlog: FC<PureProps> = ({ body, id, title }) => (
+import { fetchBlogData } from '../../../lib/blogs';
+
+export const PureBlog: VFC<PureProps> = ({ body, id, title }) => (
   <article className="text-white">
     <h2 className="pb-4">ID: {id}</h2>
     <h1 className="mb-8 text-xl font-bold">{title}</h1>
@@ -26,7 +30,16 @@ export const PureBlog: FC<PureProps> = ({ body, id, title }) => (
   </article>
 );
 
-export const Blog: FC<Props> = ({ body, id, title }) => {
+export const Blog: VFC<Props> = ({ ...initialBlog }) => {
+  const { query } = useRouter();
+  const { data } = useSWR('blog', () => fetchBlogData(query.id.toString()), {
+    initialData: initialBlog,
+    suspense: true,
+  });
+  // HACK: Suspense を使用しているため
+  const blog = data as NonNullable<typeof data>;
+  const { body, id, title } = blog;
+
   return <PureBlog {...{ body, id, title }} />;
 };
 

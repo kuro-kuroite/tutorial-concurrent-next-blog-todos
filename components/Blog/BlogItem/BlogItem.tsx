@@ -1,7 +1,7 @@
 import Link from 'next/link';
-import React, { FC } from 'react';
+import React, { VFC } from 'react';
 
-export const PureBlogItem: FC<PureProps> = ({ id, title }) => (
+export const PureBlogItem: VFC<PureProps> = ({ id, title }) => (
   <li>
     <span className="text-white">{id}: </span>
     <Link href={`/blog/${id}`}>
@@ -12,7 +12,7 @@ export const PureBlogItem: FC<PureProps> = ({ id, title }) => (
   </li>
 );
 
-export const BlogItem: FC<Props> = ({ id, title }) => {
+export const BlogItem: VFC<Props> = ({ id, title }) => {
   return <PureBlogItem {...{ id, title }} />;
 };
 

@@ -1,12 +1,17 @@
-import React, { FC } from 'react';
+import React, { Suspense, VFC } from 'react';
 
+import { ErrorBoundary } from '../ErrorBoundary/ErrorBoundary';
 import { BlogList, Props as BlogListProps } from './BlogList/BlogList';
 
-export const PureBlog: FC<PureProps> = ({ blogs }) => (
-  <BlogList {...{ blogs }} />
+export const PureBlog: VFC<PureProps> = ({ blogs }) => (
+  <ErrorBoundary fallback={<p>blog リストを取得できませんでした。</p>}>
+    <Suspense fallback={<p>blog リストを取得中...</p>}>
+      <BlogList {...{ blogs }} />
+    </Suspense>
+  </ErrorBoundary>
 );
 
-export const Blog: FC<Props> = ({ blogs }) => {
+export const Blog: VFC<Props> = ({ blogs }) => {
   return <PureBlog {...{ blogs }} />;
 };
 

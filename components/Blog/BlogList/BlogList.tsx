@@ -1,9 +1,11 @@
 import Link from 'next/link';
-import React, { FC } from 'react';
+import React, { VFC } from 'react';
+import useSWR from 'swr';
 
+import { fetchAllBlogsData } from '../../../lib/blogs';
 import { BlogItem, Props as BlogItemProps } from '../BlogItem/BlogItem';
 
-export const PureBlogList: FC<PureProps> = ({ blogs }) => (
+export const PureBlogList: VFC<PureProps> = ({ blogs }) => (
   <>
     <ul className="m-10 space-y-1 list-none">
       {blogs &&
@@ -32,7 +34,14 @@ export const PureBlogList: FC<PureProps> = ({ blogs }) => (
   </>
 );
 
-export const BlogList: FC<Props> = ({ blogs }) => {
+export const BlogList: VFC<Props> = ({ blogs: initialBlogs }) => {
+  const { data } = useSWR('blogs', fetchAllBlogsData, {
+    initialData: initialBlogs,
+    suspense: true,
+  });
+  // HACK: Suspense を使用しているため
+  const blogs = data as NonNullable<typeof data>;
+
   return <PureBlogList {...{ blogs }} />;
 };
 

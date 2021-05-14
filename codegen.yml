@@ -1,12 +1,12 @@
 overwrite: true
-schema: 'https://json-placeholder-graphql.herokuapp.com/graphql'
+schema: 'https://graphqlzero.almansi.me/api'
 documents: 'lib/**/*.ts'
 generates:
   ./types/api/jsonPlaceHolder.d.ts:
     plugins:
       - 'typescript'
       - 'typescript-operations'
-      - 'typescript-react-apollo'
+      - 'typescript-urql'
     config:
       # HACK: avoid undefined
       # maybeValue: T | undefined

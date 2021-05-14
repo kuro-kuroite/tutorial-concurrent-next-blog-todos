@@ -22,7 +22,8 @@
     "react": "^0.0.0-experimental-79740da4c",
     "react-dom": "^0.0.0-experimental-79740da4c",
     "swr": "^0.5.5",
-    "universal-cookie": "^4.0.4"
+    "universal-cookie": "^4.0.4",
+    "urql": "^2.0.3"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^1.21.4",
@@ -31,6 +32,7 @@
     "@graphql-codegen/typescript": "^1.22.0",
     "@graphql-codegen/typescript-operations": "^1.17.16",
     "@graphql-codegen/typescript-react-apollo": "^2.2.4",
+    "@graphql-codegen/typescript-urql": "^2.0.6",
     "@types/eslint": "^7.2.10",
     "@types/eslint-plugin-prettier": "^3.1.0",
     "@types/node": "^12.12.21",

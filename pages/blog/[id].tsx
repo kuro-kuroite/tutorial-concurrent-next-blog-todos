@@ -1,4 +1,5 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
+import { useRouter } from 'next/router';
 import React, { VFC } from 'react';
 
 import {
@@ -16,9 +17,14 @@ const PureBlogDetailPage: VFC<PureProps> = ({ blog: { body, id, title } }) => (
 );
 
 const BlogDetailPage: NextPage<Props> = ({ blog }) => {
-  // TODO(blogs): loading, failure
-  if (!blog) {
-    return <div>loading...</div>;
+  const { isFallback } = useRouter();
+
+  if (isFallback) {
+    return (
+      <Layout title="Blog">
+        <p>blog を取得中...</p>
+      </Layout>
+    );
   }
 
   return <PureBlogDetailPage {...{ blog }} />;
@@ -35,15 +41,15 @@ export type PureProps = Props;
 export type Props = StaticProps;
 
 export const getStaticPaths: GetStaticPaths<BlogParams> = async () => {
-  const { data } = await fetchAllBlogIds();
-  const paths = data.posts.map(({ id }) => ({
+  const blog = await fetchAllBlogIds();
+  const paths = blog.map(({ id }) => ({
     params: {
       id: id.toString(),
     },
   }));
 
   return {
-    fallback: false,
+    fallback: true,
     paths,
   };
 };
@@ -51,11 +57,20 @@ export const getStaticPaths: GetStaticPaths<BlogParams> = async () => {
 export const getStaticProps: GetStaticProps<StaticProps, BlogParams> = async ({
   params: { id } = { id: '' },
 }) => {
-  // TODO: validate id, data using error
-  const { data } = await fetchBlogData(id);
-  const blog = data.post;
+  try {
+    const blog = await fetchBlogData(id);
 
-  return {
-    props: { blog },
-  };
+    return {
+      props: { blog },
+      revalidate: 3,
+    };
+  } catch (error) {
+    return {
+      // notFound: true,
+      redirect: {
+        destination: '/blog/',
+        permanent: false,
+      },
+    };
+  }
 };

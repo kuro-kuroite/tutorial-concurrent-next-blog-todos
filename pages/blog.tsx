@@ -6,12 +6,12 @@ import { Layout } from '../components/Layout/Layout';
 import { fetchAllBlogsData } from '../lib/blogs';
 
 const PureBlogPage: VFC<PureProps> = ({ blogs }) => (
-  <Layout title="Blog">{blogs && <Blog {...{ blogs }} />}</Layout>
+  <Layout title="Blog">
+    <Blog {...{ blogs }} />
+  </Layout>
 );
 
 const BlogPage: NextPage<Props> = ({ blogs }) => {
-  // TODO(blogs): loading, failure
-
   return <PureBlogPage {...{ blogs }} />;
 };
 
@@ -25,10 +25,11 @@ export type StaticProps = BlogProps;
 
 export const getStaticProps: GetStaticProps<StaticProps> = async () => {
   // TODO: validate data using error
-  const { data } = await fetchAllBlogsData();
-  const blogs = data.posts;
+  const data = await fetchAllBlogsData();
+  const blogs = data;
 
   return {
     props: { blogs },
+    revalidate: 3,
   };
 };

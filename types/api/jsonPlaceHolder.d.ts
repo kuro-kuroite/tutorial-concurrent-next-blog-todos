@@ -1,10 +1,10 @@
-import { gql } from '@apollo/client';
-import * as Apollo from '@apollo/client';
+import gql from 'graphql-tag';
+import * as Urql from 'urql';
 export type Maybe<T> = T;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-const defaultOptions =  {}
+export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -12,225 +12,565 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  /** The `Upload` scalar type represents a file upload. */
+  Upload: any;
+};
+
+
+export type Address = {
+  __typename?: 'Address';
+  street: Maybe<Scalars['String']>;
+  suite: Maybe<Scalars['String']>;
+  city: Maybe<Scalars['String']>;
+  zipcode: Maybe<Scalars['String']>;
+  geo: Maybe<Geo>;
+};
+
+export type AddressInput = {
+  street: Maybe<Scalars['String']>;
+  suite: Maybe<Scalars['String']>;
+  city: Maybe<Scalars['String']>;
+  zipcode: Maybe<Scalars['String']>;
+  geo: Maybe<GeoInput>;
 };
 
 export type Album = {
   __typename?: 'Album';
-  user: Maybe<User>;
-  userId: Maybe<Scalars['Int']>;
-  id: Maybe<Scalars['Int']>;
+  id: Maybe<Scalars['ID']>;
   title: Maybe<Scalars['String']>;
+  user: Maybe<User>;
+  photos: Maybe<PhotosPage>;
 };
+
+
+export type AlbumPhotosArgs = {
+  options: Maybe<PageQueryOptions>;
+};
+
+export type AlbumsPage = {
+  __typename?: 'AlbumsPage';
+  data: Maybe<Array<Maybe<Album>>>;
+  links: Maybe<PaginationLinks>;
+  meta: Maybe<PageMetadata>;
+};
+
+export enum CacheControlScope {
+  Public = 'PUBLIC',
+  Private = 'PRIVATE'
+}
 
 export type Comment = {
   __typename?: 'Comment';
+  id: Maybe<Scalars['ID']>;
+  name: Maybe<Scalars['String']>;
+  email: Maybe<Scalars['String']>;
+  body: Maybe<Scalars['String']>;
   post: Maybe<Post>;
-  postId: Maybe<Scalars['Int']>;
-  id: Maybe<Scalars['Int']>;
+};
+
+export type CommentsPage = {
+  __typename?: 'CommentsPage';
+  data: Maybe<Array<Maybe<Comment>>>;
+  links: Maybe<PaginationLinks>;
+  meta: Maybe<PageMetadata>;
+};
+
+export type Company = {
+  __typename?: 'Company';
+  name: Maybe<Scalars['String']>;
+  catchPhrase: Maybe<Scalars['String']>;
+  bs: Maybe<Scalars['String']>;
+};
+
+export type CompanyInput = {
+  name: Maybe<Scalars['String']>;
+  catchPhrase: Maybe<Scalars['String']>;
+  bs: Maybe<Scalars['String']>;
+};
+
+export type CreateAlbumInput = {
+  title: Scalars['String'];
+  userId: Scalars['ID'];
+};
+
+export type CreateCommentInput = {
+  name: Scalars['String'];
+  email: Scalars['String'];
+  body: Scalars['String'];
+};
+
+export type CreatePhotoInput = {
+  title: Scalars['String'];
+  url: Scalars['String'];
+  thumbnailUrl: Scalars['String'];
+};
+
+export type CreatePostInput = {
+  title: Scalars['String'];
+  body: Scalars['String'];
+};
+
+export type CreateTodoInput = {
+  title: Scalars['String'];
+  completed: Scalars['Boolean'];
+};
+
+export type CreateUserInput = {
+  name: Scalars['String'];
+  username: Scalars['String'];
+  email: Scalars['String'];
+  address: Maybe<AddressInput>;
+  phone: Maybe<Scalars['String']>;
+  website: Maybe<Scalars['String']>;
+  company: Maybe<CompanyInput>;
+};
+
+export type Geo = {
+  __typename?: 'Geo';
+  lat: Maybe<Scalars['Float']>;
+  lng: Maybe<Scalars['Float']>;
+};
+
+export type GeoInput = {
+  lat: Maybe<Scalars['Float']>;
+  lng: Maybe<Scalars['Float']>;
+};
+
+export type Mutation = {
+  __typename?: 'Mutation';
+  _: Maybe<Scalars['Int']>;
+  createAlbum: Maybe<Album>;
+  updateAlbum: Maybe<Album>;
+  deleteAlbum: Maybe<Scalars['Boolean']>;
+  createComment: Maybe<Comment>;
+  updateComment: Maybe<Comment>;
+  deleteComment: Maybe<Scalars['Boolean']>;
+  createPhoto: Maybe<Photo>;
+  updatePhoto: Maybe<Photo>;
+  deletePhoto: Maybe<Scalars['Boolean']>;
+  createPost: Maybe<Post>;
+  updatePost: Maybe<Post>;
+  deletePost: Maybe<Scalars['Boolean']>;
+  createTodo: Maybe<Todo>;
+  updateTodo: Maybe<Todo>;
+  deleteTodo: Maybe<Scalars['Boolean']>;
+  createUser: Maybe<User>;
+  updateUser: Maybe<User>;
+  deleteUser: Maybe<Scalars['Boolean']>;
+};
+
+
+export type MutationCreateAlbumArgs = {
+  input: CreateAlbumInput;
+};
+
+
+export type MutationUpdateAlbumArgs = {
+  id: Scalars['ID'];
+  input: UpdateAlbumInput;
+};
+
+
+export type MutationDeleteAlbumArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationCreateCommentArgs = {
+  input: CreateCommentInput;
+};
+
+
+export type MutationUpdateCommentArgs = {
+  id: Scalars['ID'];
+  input: UpdateCommentInput;
+};
+
+
+export type MutationDeleteCommentArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationCreatePhotoArgs = {
+  input: CreatePhotoInput;
+};
+
+
+export type MutationUpdatePhotoArgs = {
+  id: Scalars['ID'];
+  input: UpdatePhotoInput;
+};
+
+
+export type MutationDeletePhotoArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationCreatePostArgs = {
+  input: CreatePostInput;
+};
+
+
+export type MutationUpdatePostArgs = {
+  id: Scalars['ID'];
+  input: UpdatePostInput;
+};
+
+
+export type MutationDeletePostArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationCreateTodoArgs = {
+  input: CreateTodoInput;
+};
+
+
+export type MutationUpdateTodoArgs = {
+  id: Scalars['ID'];
+  input: UpdateTodoInput;
+};
+
+
+export type MutationDeleteTodoArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationCreateUserArgs = {
+  input: CreateUserInput;
+};
+
+
+export type MutationUpdateUserArgs = {
+  id: Scalars['ID'];
+  input: UpdateUserInput;
+};
+
+
+export type MutationDeleteUserArgs = {
+  id: Scalars['ID'];
+};
+
+export enum OperatorKindEnum {
+  Gte = 'GTE',
+  Lte = 'LTE',
+  Ne = 'NE',
+  Like = 'LIKE'
+}
+
+export type OperatorOptions = {
+  kind: Maybe<OperatorKindEnum>;
+  field: Maybe<Scalars['String']>;
+  value: Maybe<Scalars['String']>;
+};
+
+export type PageLimitPair = {
+  __typename?: 'PageLimitPair';
+  page: Maybe<Scalars['Int']>;
+  limit: Maybe<Scalars['Int']>;
+};
+
+export type PageMetadata = {
+  __typename?: 'PageMetadata';
+  totalCount: Maybe<Scalars['Int']>;
+};
+
+export type PageQueryOptions = {
+  paginate: Maybe<PaginateOptions>;
+  slice: Maybe<SliceOptions>;
+  sort: Maybe<Array<Maybe<SortOptions>>>;
+  operators: Maybe<Array<Maybe<OperatorOptions>>>;
+  search: Maybe<SearchOptions>;
+};
+
+export type PaginateOptions = {
+  page: Maybe<Scalars['Int']>;
+  limit: Maybe<Scalars['Int']>;
+};
+
+export type PaginationLinks = {
+  __typename?: 'PaginationLinks';
+  first: Maybe<PageLimitPair>;
+  prev: Maybe<PageLimitPair>;
+  next: Maybe<PageLimitPair>;
+  last: Maybe<PageLimitPair>;
+};
+
+export type Photo = {
+  __typename?: 'Photo';
+  id: Maybe<Scalars['ID']>;
+  title: Maybe<Scalars['String']>;
+  url: Maybe<Scalars['String']>;
+  thumbnailUrl: Maybe<Scalars['String']>;
+  album: Maybe<Album>;
+};
+
+export type PhotosPage = {
+  __typename?: 'PhotosPage';
+  data: Maybe<Array<Maybe<Photo>>>;
+  links: Maybe<PaginationLinks>;
+  meta: Maybe<PageMetadata>;
+};
+
+export type Post = {
+  __typename?: 'Post';
+  id: Maybe<Scalars['ID']>;
+  title: Maybe<Scalars['String']>;
+  body: Maybe<Scalars['String']>;
+  user: Maybe<User>;
+  comments: Maybe<CommentsPage>;
+};
+
+
+export type PostCommentsArgs = {
+  options: Maybe<PageQueryOptions>;
+};
+
+export type PostsPage = {
+  __typename?: 'PostsPage';
+  data: Maybe<Array<Maybe<Post>>>;
+  links: Maybe<PaginationLinks>;
+  meta: Maybe<PageMetadata>;
+};
+
+export type Query = {
+  __typename?: 'Query';
+  _: Maybe<Scalars['Int']>;
+  albums: Maybe<AlbumsPage>;
+  album: Maybe<Album>;
+  comments: Maybe<CommentsPage>;
+  comment: Maybe<Comment>;
+  photos: Maybe<PhotosPage>;
+  photo: Maybe<Photo>;
+  posts: Maybe<PostsPage>;
+  post: Maybe<Post>;
+  todos: Maybe<TodosPage>;
+  todo: Maybe<Todo>;
+  users: Maybe<UsersPage>;
+  user: Maybe<User>;
+};
+
+
+export type QueryAlbumsArgs = {
+  options: Maybe<PageQueryOptions>;
+};
+
+
+export type QueryAlbumArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryCommentsArgs = {
+  options: Maybe<PageQueryOptions>;
+};
+
+
+export type QueryCommentArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryPhotosArgs = {
+  options: Maybe<PageQueryOptions>;
+};
+
+
+export type QueryPhotoArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryPostsArgs = {
+  options: Maybe<PageQueryOptions>;
+};
+
+
+export type QueryPostArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryTodosArgs = {
+  options: Maybe<PageQueryOptions>;
+};
+
+
+export type QueryTodoArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryUsersArgs = {
+  options: Maybe<PageQueryOptions>;
+};
+
+
+export type QueryUserArgs = {
+  id: Scalars['ID'];
+};
+
+export type SearchOptions = {
+  q: Maybe<Scalars['String']>;
+};
+
+export type SliceOptions = {
+  start: Maybe<Scalars['Int']>;
+  end: Maybe<Scalars['Int']>;
+  limit: Maybe<Scalars['Int']>;
+};
+
+export type SortOptions = {
+  field: Maybe<Scalars['String']>;
+  order: Maybe<SortOrderEnum>;
+};
+
+export enum SortOrderEnum {
+  Asc = 'ASC',
+  Desc = 'DESC'
+}
+
+export type Todo = {
+  __typename?: 'Todo';
+  id: Maybe<Scalars['ID']>;
+  title: Maybe<Scalars['String']>;
+  completed: Maybe<Scalars['Boolean']>;
+  user: Maybe<User>;
+};
+
+export type TodosPage = {
+  __typename?: 'TodosPage';
+  data: Maybe<Array<Maybe<Todo>>>;
+  links: Maybe<PaginationLinks>;
+  meta: Maybe<PageMetadata>;
+};
+
+export type UpdateAlbumInput = {
+  title: Maybe<Scalars['String']>;
+  userId: Maybe<Scalars['ID']>;
+};
+
+export type UpdateCommentInput = {
   name: Maybe<Scalars['String']>;
   email: Maybe<Scalars['String']>;
   body: Maybe<Scalars['String']>;
 };
 
-export type Photo = {
-  __typename?: 'Photo';
-  album: Maybe<Album>;
-  albumId: Maybe<Scalars['Int']>;
-  id: Maybe<Scalars['Int']>;
+export type UpdatePhotoInput = {
   title: Maybe<Scalars['String']>;
   url: Maybe<Scalars['String']>;
   thumbnailUrl: Maybe<Scalars['String']>;
 };
 
-export type Post = {
-  __typename?: 'Post';
-  user: Maybe<User>;
-  userId: Maybe<Scalars['Int']>;
-  id: Maybe<Scalars['Int']>;
+export type UpdatePostInput = {
   title: Maybe<Scalars['String']>;
   body: Maybe<Scalars['String']>;
 };
 
-export type RootQueryType = {
-  __typename?: 'RootQueryType';
-  post: Maybe<Post>;
-  posts: Maybe<Array<Maybe<Post>>>;
-  comment: Maybe<Comment>;
-  comments: Maybe<Array<Maybe<Comment>>>;
-  album: Maybe<Album>;
-  albums: Maybe<Array<Maybe<Album>>>;
-  photo: Maybe<Photo>;
-  photos: Maybe<Array<Maybe<Photo>>>;
-  todo: Maybe<Todo>;
-  todos: Maybe<Array<Maybe<Todo>>>;
-  user: Maybe<User>;
-  users: Maybe<Array<Maybe<User>>>;
-};
-
-
-export type RootQueryTypePostArgs = {
-  id: Maybe<Scalars['Int']>;
-};
-
-
-export type RootQueryTypePostsArgs = {
-  userId: Maybe<Scalars['Int']>;
-};
-
-
-export type RootQueryTypeCommentArgs = {
-  id: Maybe<Scalars['Int']>;
-};
-
-
-export type RootQueryTypeCommentsArgs = {
-  postId: Maybe<Scalars['Int']>;
-};
-
-
-export type RootQueryTypeAlbumArgs = {
-  id: Maybe<Scalars['Int']>;
-};
-
-
-export type RootQueryTypeAlbumsArgs = {
-  userId: Maybe<Scalars['Int']>;
-};
-
-
-export type RootQueryTypePhotoArgs = {
-  id: Maybe<Scalars['Int']>;
-};
-
-
-export type RootQueryTypePhotosArgs = {
-  albumId: Maybe<Scalars['Int']>;
-};
-
-
-export type RootQueryTypeTodoArgs = {
-  id: Maybe<Scalars['Int']>;
-};
-
-
-export type RootQueryTypeTodosArgs = {
-  userId: Maybe<Scalars['Int']>;
-  completed: Maybe<Scalars['Boolean']>;
-};
-
-
-export type RootQueryTypeUserArgs = {
-  id: Maybe<Scalars['Int']>;
-};
-
-export type Todo = {
-  __typename?: 'Todo';
-  user: Maybe<User>;
-  userId: Maybe<Scalars['Int']>;
-  id: Maybe<Scalars['Int']>;
+export type UpdateTodoInput = {
   title: Maybe<Scalars['String']>;
   completed: Maybe<Scalars['Boolean']>;
 };
 
-export type User = {
-  __typename?: 'User';
-  id: Maybe<Scalars['Int']>;
+export type UpdateUserInput = {
   name: Maybe<Scalars['String']>;
   username: Maybe<Scalars['String']>;
   email: Maybe<Scalars['String']>;
+  address: Maybe<AddressInput>;
   phone: Maybe<Scalars['String']>;
   website: Maybe<Scalars['String']>;
+  company: Maybe<CompanyInput>;
+};
+
+
+export type User = {
+  __typename?: 'User';
+  id: Maybe<Scalars['ID']>;
+  name: Maybe<Scalars['String']>;
+  username: Maybe<Scalars['String']>;
+  email: Maybe<Scalars['String']>;
+  address: Maybe<Address>;
+  phone: Maybe<Scalars['String']>;
+  website: Maybe<Scalars['String']>;
+  company: Maybe<Company>;
+  posts: Maybe<PostsPage>;
+  albums: Maybe<AlbumsPage>;
+  todos: Maybe<TodosPage>;
+};
+
+
+export type UserPostsArgs = {
+  options: Maybe<PageQueryOptions>;
+};
+
+
+export type UserAlbumsArgs = {
+  options: Maybe<PageQueryOptions>;
+};
+
+
+export type UserTodosArgs = {
+  options: Maybe<PageQueryOptions>;
+};
+
+export type UsersPage = {
+  __typename?: 'UsersPage';
+  data: Maybe<Array<Maybe<User>>>;
+  links: Maybe<PaginationLinks>;
+  meta: Maybe<PageMetadata>;
 };
 
 export type BlogListQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type BlogListQuery = { __typename?: 'RootQueryType', posts: Maybe<Array<Maybe<{ __typename?: 'Post', id: Maybe<number>, title: Maybe<string> }>>> };
+export type BlogListQuery = { __typename?: 'Query', posts: Maybe<{ __typename?: 'PostsPage', data: Maybe<Array<Maybe<{ __typename?: 'Post', id: Maybe<string>, title: Maybe<string> }>>> }> };
 
 export type BlogIdsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type BlogIdsQuery = { __typename?: 'RootQueryType', posts: Maybe<Array<Maybe<{ __typename?: 'Post', id: Maybe<number> }>>> };
+export type BlogIdsQuery = { __typename?: 'Query', posts: Maybe<{ __typename?: 'PostsPage', data: Maybe<Array<Maybe<{ __typename?: 'Post', id: Maybe<string> }>>> }> };
 
 export type BlogByIdQueryVariables = Exact<{
-  id: Scalars['Int'];
+  id: Scalars['ID'];
 }>;
 
 
-export type BlogByIdQuery = { __typename?: 'RootQueryType', post: Maybe<{ __typename?: 'Post', id: Maybe<number>, title: Maybe<string>, body: Maybe<string> }> };
+export type BlogByIdQuery = { __typename?: 'Query', post: Maybe<{ __typename?: 'Post', id: Maybe<string>, title: Maybe<string>, body: Maybe<string> }> };
 
 
 export const BlogListDocument = gql`
     query BlogList {
   posts {
-    id
-    title
+    data {
+      id
+      title
+    }
   }
 }
     `;
 
-/**
- * __useBlogListQuery__
- *
- * To run a query within a React component, call `useBlogListQuery` and pass it any options that fit your needs.
- * When your component renders, `useBlogListQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useBlogListQuery({
- *   variables: {
- *   },
- * });
- */
-export function useBlogListQuery(baseOptions?: Apollo.QueryHookOptions<BlogListQuery, BlogListQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<BlogListQuery, BlogListQueryVariables>(BlogListDocument, options);
-      }
-export function useBlogListLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<BlogListQuery, BlogListQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<BlogListQuery, BlogListQueryVariables>(BlogListDocument, options);
-        }
-export type BlogListQueryHookResult = ReturnType<typeof useBlogListQuery>;
-export type BlogListLazyQueryHookResult = ReturnType<typeof useBlogListLazyQuery>;
-export type BlogListQueryResult = Apollo.QueryResult<BlogListQuery, BlogListQueryVariables>;
+export function useBlogListQuery(options: Omit<Urql.UseQueryArgs<BlogListQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<BlogListQuery>({ query: BlogListDocument, ...options });
+};
 export const BlogIdsDocument = gql`
     query BlogIds {
   posts {
-    id
+    data {
+      id
+    }
   }
 }
     `;
 
-/**
- * __useBlogIdsQuery__
- *
- * To run a query within a React component, call `useBlogIdsQuery` and pass it any options that fit your needs.
- * When your component renders, `useBlogIdsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useBlogIdsQuery({
- *   variables: {
- *   },
- * });
- */
-export function useBlogIdsQuery(baseOptions?: Apollo.QueryHookOptions<BlogIdsQuery, BlogIdsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<BlogIdsQuery, BlogIdsQueryVariables>(BlogIdsDocument, options);
-      }
-export function useBlogIdsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<BlogIdsQuery, BlogIdsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<BlogIdsQuery, BlogIdsQueryVariables>(BlogIdsDocument, options);
-        }
-export type BlogIdsQueryHookResult = ReturnType<typeof useBlogIdsQuery>;
-export type BlogIdsLazyQueryHookResult = ReturnType<typeof useBlogIdsLazyQuery>;
-export type BlogIdsQueryResult = Apollo.QueryResult<BlogIdsQuery, BlogIdsQueryVariables>;
+export function useBlogIdsQuery(options: Omit<Urql.UseQueryArgs<BlogIdsQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<BlogIdsQuery>({ query: BlogIdsDocument, ...options });
+};
 export const BlogByIdDocument = gql`
-    query BlogById($id: Int!) {
+    query BlogById($id: ID!) {
   post(id: $id) {
     id
     title
@@ -239,30 +579,6 @@ export const BlogByIdDocument = gql`
 }
     `;
 
-/**
- * __useBlogByIdQuery__
- *
- * To run a query within a React component, call `useBlogByIdQuery` and pass it any options that fit your needs.
- * When your component renders, `useBlogByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useBlogByIdQuery({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useBlogByIdQuery(baseOptions: Apollo.QueryHookOptions<BlogByIdQuery, BlogByIdQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<BlogByIdQuery, BlogByIdQueryVariables>(BlogByIdDocument, options);
-      }
-export function useBlogByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<BlogByIdQuery, BlogByIdQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<BlogByIdQuery, BlogByIdQueryVariables>(BlogByIdDocument, options);
-        }
-export type BlogByIdQueryHookResult = ReturnType<typeof useBlogByIdQuery>;
-export type BlogByIdLazyQueryHookResult = ReturnType<typeof useBlogByIdLazyQuery>;
-export type BlogByIdQueryResult = Apollo.QueryResult<BlogByIdQuery, BlogByIdQueryVariables>;
+export function useBlogByIdQuery(options: Omit<Urql.UseQueryArgs<BlogByIdQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<BlogByIdQuery>({ query: BlogByIdDocument, ...options });
+};
