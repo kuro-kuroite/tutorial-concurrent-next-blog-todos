@@ -32,7 +32,8 @@ export const PureBlog: VFC<PureProps> = ({ body, id, title }) => (
 
 export const Blog: VFC<Props> = ({ ...initialBlog }) => {
   const { query } = useRouter();
-  const { data } = useSWR('blog', () => fetchBlogData(query.id.toString()), {
+  const queryId = query.id.toString();
+  const { data } = useSWR(['blog', queryId], () => fetchBlogData(queryId), {
     initialData: initialBlog,
     suspense: true,
   });
