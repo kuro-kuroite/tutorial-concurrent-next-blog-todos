@@ -51,10 +51,11 @@ export const fetchTaskData = async (
     title: doc.data().title as string,
   }))[0];
 
-  return task;
-  // const data: TaskById = { task };
+  if (!task) {
+    throw 'No task';
+  }
 
-  // return { data, error: undefined, loading: false };
+  return task;
 };
 
 export const createTask = async (title: string): Promise<void> => {
