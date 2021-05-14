@@ -1,11 +1,11 @@
 import Image from 'next/image';
-import React, { FC } from 'react';
+import React, { VFC } from 'react';
 
 import { FacebookIcon } from './assets/FacebookIcon';
 import { GitHubIcon } from './assets/GitHubIcon';
 import { TwitterIcon } from './assets/TwitterIcon';
 
-export const PureContact: FC<PureProps> = () => (
+export const PureContact: VFC<PureProps> = () => (
   <div className="bg-white text-center shadow-xl p-8 w-80 rounded">
     <div className="mt-4">
       <p className="font-bold">Contact info</p>
@@ -60,7 +60,7 @@ export const PureContact: FC<PureProps> = () => (
   </div>
 );
 
-export const Contact: FC<Props> = () => {
+export const Contact: VFC<Props> = () => {
   return <PureContact />;
 };
 

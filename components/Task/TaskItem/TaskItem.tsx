@@ -1,7 +1,7 @@
 import Link from 'next/link';
-import React, { FC, MouseEventHandler } from 'react';
+import React, { MouseEventHandler, VFC } from 'react';
 
-export const PureTaskItem: FC<PureProps> = ({
+export const PureTaskItem: VFC<PureProps> = ({
   id,
   onDeleteTaskClick,
   onEditTaskClick,
@@ -61,7 +61,7 @@ export const PureTaskItem: FC<PureProps> = ({
   </li>
 );
 
-export const TaskItem: FC<Props> = ({
+export const TaskItem: VFC<Props> = ({
   id,
   onDeleteTaskClick,
   onEditTaskClick,

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React, { FC, useState } from 'react';
+import React, { useState, VFC } from 'react';
 import useSWR from 'swr';
 
 import {
@@ -11,7 +11,7 @@ import {
 import { Props as TaskFormProps, TaskForm } from '../TaskForm/TaskForm';
 import { Props as TaskItemProps, TaskItem } from '../TaskItem/TaskItem';
 
-export const PureTaskList: FC<PureProps> = ({
+export const PureTaskList: VFC<PureProps> = ({
   button,
   onDeleteTaskClick,
   onEditTaskClick,
@@ -56,7 +56,7 @@ export const PureTaskList: FC<PureProps> = ({
   </>
 );
 
-export const TaskList: FC<Props> = () => {
+export const TaskList: VFC<Props> = () => {
   const { data, mutate } = useSWR<PureProps['tasks']>(
     'tasks',
     fetchAllTasksData,

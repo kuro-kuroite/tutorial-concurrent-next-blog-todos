@@ -1,9 +1,9 @@
-import React, { FC, Suspense } from 'react';
+import React, { Suspense, VFC } from 'react';
 
 import { ErrorBoundary } from '../ErrorBoundary/ErrorBoundary';
 import { TaskList } from './TaskList/TaskList';
 
-export const PureTask: FC<PureProps> = () => (
+export const PureTask: VFC<PureProps> = () => (
   <ErrorBoundary fallback={<p>task リストを取得できませんでした。</p>}>
     <Suspense fallback={<p>task リストを取得中...</p>}>
       <TaskList />
@@ -11,7 +11,7 @@ export const PureTask: FC<PureProps> = () => (
   </ErrorBoundary>
 );
 
-export const Task: FC<Props> = () => {
+export const Task: VFC<Props> = () => {
   return <PureTask />;
 };
 

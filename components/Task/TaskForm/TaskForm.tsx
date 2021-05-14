@@ -1,8 +1,8 @@
-import React, { ChangeEventHandler, FC, FormEventHandler } from 'react';
+import React, { ChangeEventHandler, FormEventHandler, VFC } from 'react';
 
 import { Props as TaskItemProps } from '../TaskItem/TaskItem';
 
-export const PureTaskForm: FC<PureProps> = ({
+export const PureTaskForm: VFC<PureProps> = ({
   button,
   onTaskChange,
   onTaskSubmit,
@@ -31,7 +31,7 @@ export const PureTaskForm: FC<PureProps> = ({
   </>
 );
 
-export const TaskForm: FC<Props> = ({
+export const TaskForm: VFC<Props> = ({
   button,
   onTaskChange,
   onTaskSubmit,

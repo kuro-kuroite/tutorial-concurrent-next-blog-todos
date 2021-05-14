@@ -1,15 +1,15 @@
 import { useRouter } from 'next/router';
-import React, { FC } from 'react';
+import React, { VFC } from 'react';
 import useSWR from 'swr';
 
 import { fetchTaskData } from '../../lib/tasks';
 import { Props as TaskProps, Task } from './Task/Task';
 
-export const PureTaskDetail: FC<PureProps> = ({ id, title }) => (
+export const PureTaskDetail: VFC<PureProps> = ({ id, title }) => (
   <Task {...{ id, title }} />
 );
 
-export const TaskDetail: FC<Props> = () => {
+export const TaskDetail: VFC<Props> = () => {
   const { query } = useRouter();
   const queryId = query.id as string;
   const { data } = useSWR<PureProps>(

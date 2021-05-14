@@ -53,7 +53,7 @@ export const PureLayout: FC<PureProps> = ({ children, title }) => (
 );
 
 export const Layout: FC<Props> = ({ children, title }) => {
-  return <PureLayout {...{ children, title }} />;
+  return <PureLayout {...{ title }}>{children}</PureLayout>;
 };
 
 export type PureProps = Props;

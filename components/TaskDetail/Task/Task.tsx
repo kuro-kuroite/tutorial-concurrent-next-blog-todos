@@ -1,7 +1,7 @@
 import Link from 'next/link';
-import React, { FC } from 'react';
+import React, { VFC } from 'react';
 
-export const PureTask: FC<PureProps> = ({ id, title }) => (
+export const PureTask: VFC<PureProps> = ({ id, title }) => (
   <article className="text-white">
     <h2 className="pb-4">ID: {id}</h2>
     <h1 className="mb-8 text-xl font-bold">{title}</h1>
@@ -25,7 +25,7 @@ export const PureTask: FC<PureProps> = ({ id, title }) => (
   </article>
 );
 
-export const Task: FC<Props> = ({ id, title }) => {
+export const Task: VFC<Props> = ({ id, title }) => {
   return <PureTask {...{ id, title }} />;
 };
 
