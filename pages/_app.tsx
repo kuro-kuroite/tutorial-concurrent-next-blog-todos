@@ -2,6 +2,7 @@ import '../styles/tailwind.css';
 import '../styles/reset.css';
 import '../styles/a11y.css';
 import '../styles/base.css';
+import '../components/Layout/Layout.css';
 
 import { AppProps } from 'next/app';
 import React, { useEffect, VFC } from 'react';

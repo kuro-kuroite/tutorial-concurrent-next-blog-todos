@@ -1,0 +1,8 @@
+* {
+  @apply text-gray-300;
+}
+
+a,
+a * {
+  @apply text-blue-500;
+}
