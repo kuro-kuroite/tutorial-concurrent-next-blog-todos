@@ -19,9 +19,10 @@
     "noFallthroughCasesInSwitch": true,
     "jsx": "preserve",
     "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
+      "DOM",
+      "DOM.Iterable",
+      "ESNext",
+      "ESNext.Promise"
     ]
   },
   "exclude": [

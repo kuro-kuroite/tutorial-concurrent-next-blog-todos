@@ -1,7 +1,6 @@
 import { NextPage } from 'next';
-import React, { Suspense, VFC } from 'react';
+import React, { VFC } from 'react';
 
-import { ErrorBoundary } from '../../components/ErrorBoundary/ErrorBoundary';
 import { Layout } from '../../components/Layout/Layout';
 import {
   Props as TaskDetailProps,
@@ -10,11 +9,7 @@ import {
 
 const PureTaskDetailPage: VFC<PureProps> = () => (
   <Layout title="Task">
-    <ErrorBoundary fallback={<p>task を取得できませんでした。</p>}>
-      <Suspense fallback={<p>task を取得中...</p>}>
-        <TaskDetail />
-      </Suspense>
-    </ErrorBoundary>
+    <TaskDetail />
   </Layout>
 );
 

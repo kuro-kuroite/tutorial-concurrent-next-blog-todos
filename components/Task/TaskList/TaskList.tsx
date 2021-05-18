@@ -2,12 +2,7 @@ import Link from 'next/link';
 import React, { useState, VFC } from 'react';
 import useSWR from 'swr';
 
-import {
-  createTask,
-  deleteTask,
-  fetchAllTasksData,
-  updateTask,
-} from '../../../lib/tasks';
+import { useTask } from '../../../lib/tasks/tasks';
 import { Props as TaskFormProps, TaskForm } from '../TaskForm/TaskForm';
 import { Props as TaskItemProps, TaskItem } from '../TaskItem/TaskItem';
 
@@ -57,6 +52,7 @@ export const PureTaskList: VFC<PureProps> = ({
 );
 
 export const TaskList: VFC<Props> = () => {
+  const { createTask, deleteTask, fetchAllTasksData, updateTask } = useTask();
   const { data, mutate } = useSWR<PureProps['tasks']>(
     'tasks',
     fetchAllTasksData,

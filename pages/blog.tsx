@@ -3,7 +3,7 @@ import React, { VFC } from 'react';
 
 import { Blog, Props as BlogProps } from '../components/Blog/Blog';
 import { Layout } from '../components/Layout/Layout';
-import { fetchAllBlogsData } from '../lib/blogs';
+import { fetchAllBlogsData } from '../lib/blogs/blogs';
 
 const PureBlogPage: VFC<PureProps> = ({ blogs }) => (
   <Layout title="Blog">
@@ -24,12 +24,21 @@ export type Props = StaticProps;
 export type StaticProps = BlogProps;
 
 export const getStaticProps: GetStaticProps<StaticProps> = async () => {
-  // TODO: validate data using error
-  const data = await fetchAllBlogsData();
-  const blogs = data;
+  try {
+    const data = await fetchAllBlogsData();
+    const blogs = data;
 
-  return {
-    props: { blogs },
-    revalidate: 3,
-  };
+    return {
+      props: { blogs },
+      revalidate: 3,
+    };
+  } catch (error) {
+    return {
+      // notFound: true,
+      redirect: {
+        destination: '/main/',
+        permanent: false,
+      },
+    };
+  }
 };

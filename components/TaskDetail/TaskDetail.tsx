@@ -1,30 +1,23 @@
-import { useRouter } from 'next/router';
-import React, { VFC } from 'react';
-import useSWR from 'swr';
+import React, { Suspense, VFC } from 'react';
 
-import { fetchTaskData } from '../../lib/tasks';
-import { Props as TaskProps, Task } from './Task/Task';
+import { AuthErrorBoundary } from '../ErrorBoundary/AuthErrorBoundary';
+import { ErrorBoundary } from '../ErrorBoundary/ErrorBoundary';
+import { Task } from './Task/Task';
 
-export const PureTaskDetail: VFC<PureProps> = ({ id, title }) => (
-  <Task {...{ id, title }} />
+export const PureTaskDetail: VFC<PureProps> = () => (
+  <ErrorBoundary fallback={<p>task を取得できませんでした。</p>}>
+    <AuthErrorBoundary fallback={<p>ログインが必要です。</p>}>
+      <Suspense fallback={<p>task を取得中...</p>}>
+        <Task />
+      </Suspense>
+    </AuthErrorBoundary>
+  </ErrorBoundary>
 );
 
 export const TaskDetail: VFC<Props> = () => {
-  const { query } = useRouter();
-  const queryId = query.id as string;
-  const { data } = useSWR<PureProps>(
-    ['task', queryId],
-    () => fetchTaskData(queryId),
-    {
-      suspense: true,
-    }
-  );
-  // HACK: Suspense を使用しているため
-  const { id, title } = data as NonNullable<typeof data>;
-
-  return <PureTaskDetail {...{ id, title }} />;
+  return <PureTaskDetail />;
 };
 
-export type PureProps = TaskProps;
+export type PureProps = Props;
 
 export type Props = Record<string, unknown>;

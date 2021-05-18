@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import React, { VFC } from 'react';
 import useSWR from 'swr';
 
-import { fetchBlogData } from '../../../lib/blogs';
+import { fetchBlogData } from '../../../lib/blogs/blogs';
 
 export const PureBlog: VFC<PureProps> = ({ body, id, title }) => (
   <article className="text-white">

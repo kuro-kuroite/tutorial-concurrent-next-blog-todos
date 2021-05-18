@@ -2,7 +2,7 @@ import Link from 'next/link';
 import React, { VFC } from 'react';
 import useSWR from 'swr';
 
-import { fetchAllBlogsData } from '../../../lib/blogs';
+import { fetchAllBlogsData } from '../../../lib/blogs/blogs';
 import { BlogItem, Props as BlogItemProps } from '../BlogItem/BlogItem';
 
 export const PureBlogList: VFC<PureProps> = ({ blogs }) => (

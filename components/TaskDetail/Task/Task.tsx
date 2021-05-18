@@ -1,5 +1,9 @@
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import React, { VFC } from 'react';
+import useSWR from 'swr';
+
+import { useTask } from '../../../lib/tasks/tasks';
 
 export const PureTask: VFC<PureProps> = ({ id, title }) => (
   <article className="text-white">
@@ -25,13 +29,26 @@ export const PureTask: VFC<PureProps> = ({ id, title }) => (
   </article>
 );
 
-export const Task: VFC<Props> = ({ id, title }) => {
+export const Task: VFC<Props> = () => {
+  const { query } = useRouter();
+  const queryId = query.id as string;
+  const { fetchTaskData } = useTask();
+  const { data } = useSWR<PureProps>(
+    ['task', queryId],
+    () => fetchTaskData(queryId),
+    {
+      suspense: true,
+    }
+  );
+  // HACK: Suspense を使用しているため
+  const { id, title } = data as NonNullable<typeof data>;
+
   return <PureTask {...{ id, title }} />;
 };
 
-export type PureProps = Props;
-
-export type Props = {
+export type PureProps = {
   id: number;
   title: string;
 };
+
+export type Props = Record<string, unknown>;

@@ -4,18 +4,18 @@ import { useRouter } from 'next/router';
 import React, { MouseEventHandler, VFC } from 'react';
 
 import { Layout } from '../components/Layout/Layout';
-import { logout } from '../lib/auth';
+import { useAuth } from '../lib/auth/auth';
 
 export const PureMainPage: VFC<PureProps> = ({ onLogoutClick }) => (
   <Layout title="Main">
-    <div className="mb-10">
+    <div className="mb-10 flex flex-col space-y-4 md:flex-row md:space-y-0 md:space-x-16">
       <Link href="/blog/">
-        <a className="bg-indigo-500 mr-8 hover:bg-indigo-600 text-white px-4 py-12 rounded">
+        <a className="block bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-12 rounded">
           Visit Blog by SSG + ISR
         </a>
       </Link>
       <Link href="/task/">
-        <a className="bg-gray-500 ml-8 hover:bg-gray-600 text-white px-4 py-12 rounded">
+        <a className="block bg-gray-500 hover:bg-gray-600 text-white px-4 py-12 rounded">
           Visit Task by ISR + CSR
         </a>
       </Link>
@@ -41,6 +41,7 @@ export const PureMainPage: VFC<PureProps> = ({ onLogoutClick }) => (
 
 export const MainPage: NextPage<Props> = () => {
   const router = useRouter();
+  const { logout } = useAuth();
 
   const handleLogoutClick: PureProps['onLogoutClick'] = async (event) => {
     event.preventDefault();
@@ -52,6 +53,7 @@ export const MainPage: NextPage<Props> = () => {
 
     await logout();
     await router.push('/');
+    router.reload();
 
     return;
   };
@@ -72,23 +74,3 @@ export type PureProps = {
 };
 
 export type Props = Record<string, unknown>;
-
-// export const getServerSideProps: GetServerSideProps<{ dummy: '' }> = async (
-//   ctx
-// ) => {
-//   // TODO: validate data using error
-//   const dummy: '' = await new Promise((resolve) => resolve(''));
-//   const redirect = isLogin(ctx)
-//     ? {}
-//     : {
-//         redirect: {
-//           destination: '/login/',
-//           permanent: false,
-//         },
-//       };
-
-//   return {
-//     ...redirect,
-//     props: { dummy },
-//   };
-// };

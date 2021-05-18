@@ -4,15 +4,11 @@ import type {
   BlogByIdQuery,
   BlogIdsQuery,
   BlogListQuery,
-} from '../types/api/jsonPlaceHolder';
-import { BlogById, BlogIds, BlogList, BlogParams } from '../types/blog';
-import { client } from './urql/urql-client';
+} from '../../types/api/jsonPlaceHolder';
+import { BlogById, BlogIds, BlogList, BlogParams } from '../../types/blog';
+import { client } from './urql';
 
 export const fetchAllBlogsData = async (): Promise<BlogList['blogs']> => {
-  // const res = await fetch(new URL(apiUrl));
-  // // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-  // const blogs: Blog[] = await res.json();
-
   const { data, error } = await client
     .query<BlogListQuery>(
       gql`
@@ -46,12 +42,6 @@ export const fetchAllBlogsData = async (): Promise<BlogList['blogs']> => {
 };
 
 export const fetchAllBlogIds = async (): Promise<BlogIds['blogs']> => {
-  // const res = await fetch(new URL(apiUrl));
-  // // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-  // const blogs: Blog[] = await res.json();
-  // const ids = blogs.map(({ id }) => ({ id }));
-  // return ids;
-
   // TODO: error 変数を返却
   const { data, error } = await client
     .query<BlogIdsQuery>(
@@ -86,10 +76,6 @@ export const fetchAllBlogIds = async (): Promise<BlogIds['blogs']> => {
 export const fetchBlogData = async (
   id: BlogParams['id']
 ): Promise<BlogById['blog']> => {
-  // const res = await fetch(new URL(`${apiUrl}/${id}/`));
-  // // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-  // const blog: Blog = await res.json();
-
   const { data, error } = await client
     .query<BlogByIdQuery>(
       gql`

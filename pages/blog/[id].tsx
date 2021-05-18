@@ -7,7 +7,7 @@ import {
   Props as BlogDetailProps,
 } from '../../components/BlogDetail/BlogDetail';
 import { Layout } from '../../components/Layout/Layout';
-import { fetchAllBlogIds, fetchBlogData } from '../../lib/blogs';
+import { fetchAllBlogIds, fetchBlogData } from '../../lib/blogs/blogs';
 import { BlogParams } from '../../types/blog';
 
 const PureBlogDetailPage: VFC<PureProps> = ({ blog: { body, id, title } }) => (
