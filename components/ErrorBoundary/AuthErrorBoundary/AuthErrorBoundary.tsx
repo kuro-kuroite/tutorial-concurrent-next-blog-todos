@@ -1,4 +1,4 @@
-import { ErrorBoundary, State } from './ErrorBoundary';
+import { ErrorBoundary, State } from '../ErrorBoundary';
 
 export class AuthErrorBoundary extends ErrorBoundary {
   state = { error: null, hasError: false };

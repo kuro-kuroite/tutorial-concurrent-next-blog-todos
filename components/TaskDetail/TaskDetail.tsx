@@ -1,12 +1,13 @@
 import React, { Suspense, VFC } from 'react';
 
-import { AuthErrorBoundary } from '../ErrorBoundary/AuthErrorBoundary';
+import { AuthErrorBoundary } from '../ErrorBoundary/AuthErrorBoundary/AuthErrorBoundary';
+import { AuthErrorFallback } from '../ErrorBoundary/AuthErrorBoundary/AuthErrorFallback';
 import { ErrorBoundary } from '../ErrorBoundary/ErrorBoundary';
 import { Task } from './Task/Task';
 
 export const PureTaskDetail: VFC<PureProps> = () => (
   <ErrorBoundary fallback={<p>task を取得できませんでした。</p>}>
-    <AuthErrorBoundary fallback={<p>ログインが必要です。</p>}>
+    <AuthErrorBoundary fallback={<AuthErrorFallback />}>
       <Suspense fallback={<p>task を取得中...</p>}>
         <Task />
       </Suspense>
