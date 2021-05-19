@@ -17,6 +17,10 @@ Next.js と Firebase(Cloud Firestore, Authentication) を使用した、タス�
   - 追加
   - 編集
   - 削除
+- Suspense を使ったデータ取得
+  - Render-as-You-Fetch
+    - GraphQL(urql)
+    - Firestore
 
 ## for developer
 
@@ -54,7 +58,7 @@ git push origin main # vercel can detect pushing main and deploy it
 ### fetch schema
 
 ```zsh
-npx get-graphql-schema https://json-placeholder-graphql.herokuapp.com/graphql > types/api/jsonPlaceHolder.graphql
+npx get-graphql-schema https://graphqlzero.almansi.me/api > types/api/jsonPlaceHolder.graphql
 ```
 
 ### generate schema
