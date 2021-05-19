@@ -16,7 +16,7 @@ export const PureMainPage: VFC<PureProps> = ({ onLogoutClick }) => (
       </Link>
       <Link href="/task/">
         <a className="block bg-gray-500 hover:bg-gray-600 text-white px-4 py-12 rounded">
-          Visit Task by ISR + CSR
+          Visit Task by CSR + Auth
         </a>
       </Link>
     </div>
